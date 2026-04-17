@@ -1,0 +1,63 @@
+Option A: 
+-- --------------------------------------------
+Introducing Swift Supply Co: follow slides 4-17 
+-- --------------------------------------------
+Identify 2-3 inefficiencies in the hypothetical scenario example and then select one workflow to assess in depth, investigating if an AI-driven automation could help at Swift Supply Co, a mid-sized office supplies retailer with an overwhelmed customer service team.
+-- specializing in office supplies and business essentials.
+
+-- --------------------------------------------
+Current situation: 
+-- --------------------------------------------
+The Swift Supply Co customer service team is overwhelmed, leading to delayed responses, frustrated customers, and lost business. Agents spend over 40% of their time handling repetitive inquiries, such as order status and product availability instead of focusing on complex customer needs.
+
+1.  Inquiry Received (1-2 minutes)
+     - A customer submits a question through email, phone, live chat, or a web form.
+	 
+2.  Inquiry Routed (5-10 minutes)
+    - A team member manually checks the inbox or platform and assigns the inquiry to an available agent.
+	
+3.  Agent Reviews Request (3-5 minutes)
+    - The assigned agent reads the message and determines the type of inquiry (order status, return request, product availability, complaint, etc.).
+	
+4.  Agent Information Search by Order Number (5-12 minutes)
+    - The agent looks up information across multiple systems:
+    - Order tracking system
+    - Inventory system
+    - Policy documentation
+    - This often requires switching between tabs, copying/pasting order numbers, or checking with other departments.
+	
+5.  Response Drafted & Sent (5-8 minutes)
+    - The agent writes a custom reply, often using boilerplate responses or templates. They may manually attach tracking links or summarize 
+    - product availability.
+	
+6.  If complex, ESCALATE (varies: 3-10+ minutes)
+    - If the request is complex (e.g., complaint, return issue), the agent forwards it to a supervisor or escalations team via email or phone. 
+
+
+
+-- --------------------------------------------
+Tasks: 
+-- --------------------------------------------
+
+1.  Identify 2-3 inefficiencies or problem areas in the current workflow, focusing on repetitive, time-consuming tasks.
+2.  Select one inefficiency to analyze in depth. 
+3.  Determine whether AI-driven automation could effectively solve these issues.
+4.  Clearly define the specific problems or tasks that AI-based chatbots or automated workflows can effectively address.
+
+
+
+-- --------------------------------------------
+Main goal: 
+-- --------------------------------------------
+Generate a short list (2–3) of potential problem areas, then identify which workflow you want to analyze in depth. You will get a chance to continue working on this workflow in future playbook assignments. 
+
+
+
+-- --------------------------------------------
+AI Automation Guidelines
+-- --------------------------------------------
+1.  Prioritize repetitive, high-volume tasks
+2.  Look for structured processes involving clear rules
+3.  Avoid automating inefficient or broken workflows
+4.  Clearly distinguish AI tasks from those requiring human judgment
+5.  Identify tasks where AI complements human effort without fully replacing human oversight
