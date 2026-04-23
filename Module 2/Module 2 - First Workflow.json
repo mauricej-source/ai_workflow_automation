@@ -1,0 +1,675 @@
+{
+  "name": "Module 2 - First Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        -224
+      ],
+      "id": "29fb79a6-6eb5-4cbf-8d15-77f7466c7b36",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://news.ycombinator.com/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -80,
+        16
+      ],
+      "id": "67aede68-7ab1-488e-b8cc-bc80f6e8ae2d",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "html": "HTML1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        272,
+        16
+      ],
+      "id": "dd58edb7-b641-4453-a9aa-25bce6872c17",
+      "name": "Markdown"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.data }}",
+        "options": {
+          "systemMessage": "Create a social media post from this content.\n\nText Formatting Rules\n\nRandom Return 3 Titles and its URL,\nSeparate the Title and URL by ' => '\nThe 3 Titles and URLs should be in List format\nWrite \\n at the end of each URL\n\nLists must use \\n between items.\n\nKeep the total character count under 280."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        448,
+        16
+      ],
+      "id": "88d580f3-5cfb-4ad1-b016-c31ef4d2cf7e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        448,
+        176
+      ],
+      "id": "93a094c6-91b8-471a-9201-b1371ca1bf29",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ExVEy8gIBQUldRaC",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://bsky.social/xrpc/com.atproto.server.createSession",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{ \"identifier\": \"mauricejohnson3.bsky.social\", \"password\": \"akgf-sm7w-chlx-gpbr\" }",
+        "options": {
+          "sendCredentialsOnCrossOriginRedirect": false
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        752,
+        288
+      ],
+      "id": "b48f5a52-7763-4558-a4d2-dba5bc70c2bb",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://bsky.social/xrpc/com.atproto.repo.createRecord",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.accessJwt }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "repo",
+              "value": "mauricejohnson3.bsky.social"
+            },
+            {
+              "name": "collection",
+              "value": "app.bsky.feed.post"
+            },
+            {
+              "name": "record",
+              "value": "={{ { \"text\": $('AI Agent').item.json.output, \"createdAt\": $now.toISO(), \"$type\": \"app.bsky.feed.post\" } }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1232,
+        112
+      ],
+      "id": "4f15d83d-7fa7-4bbf-8c3a-85fec971f7c8",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "items",
+              "cssSelector": ".athing",
+              "returnValue": "html",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        272
+      ],
+      "id": "86fc1972-007f-48d2-9272-97c3cd73683c",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "items",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        96,
+        272
+      ],
+      "id": "fdd3c4a2-9b1f-4d1b-a031-6f4ea005be20",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "items",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "title",
+              "cssSelector": ".titleline > a"
+            },
+            {
+              "key": "url",
+              "cssSelector": ".titleline > a",
+              "returnValue": "attribute",
+              "attribute": "href"
+            }
+          ]
+        },
+        "options": {
+          "trimValues": true,
+          "cleanUpText": true
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        272,
+        272
+      ],
+      "id": "44322c91-afbe-4e30-92ba-573fec2a583a",
+      "name": "HTML1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\n\n// This saves the token into n8n's internal database for this workflow\nstaticData.accessJwt = $input.first().json.accessJwt; \n\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        944,
+        288
+      ],
+      "id": "4c62cce6-7653-4828-bbd0-f39d3d10b81a",
+      "name": "Store Bluesky Token"
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\n\nreturn {\n  token: staticData.accessJwt || null,\n  hasToken: !!staticData.accessJwt\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        736,
+        16
+      ],
+      "id": "06bde57c-5155-4340-8432-3b238a3fc74a",
+      "name": "GET BlueSky Token"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6f4f8ca7-01a2-4021-8a40-76c7892c6169",
+              "leftValue": "={{ $json.token }}",
+              "rightValue": "null",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        928,
+        16
+      ],
+      "id": "6e8f2a91-3863-4703-93c7-0b78e99cb2ab",
+      "name": "BlueSky Token Exists?"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://bsky.social/xrpc/com.atproto.server.createSession",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{ \"identifier\": \"mauricejohnson3.bsky.social\", \"password\": \"akgf-sm7w-chlx-gpbr\" }",
+        "options": {
+          "sendCredentialsOnCrossOriginRedirect": false
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -432,
+        16
+      ],
+      "id": "497b6e3f-483f-4e00-a026-19e906428ae1",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\n\n// This saves the token into n8n's internal database for this workflow\nstaticData.accessJwt = $input.first().json.accessJwt; \n\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -256,
+        16
+      ],
+      "id": "12713683-9c5a-466a-a70b-dcdacde1b0fb",
+      "name": "Store Bluesky Token2"
+    }
+  ],
+  "pinData": {
+    "HTML1": [
+      {
+        "json": {
+          "title": "Alberta startup sells no-tech tractors for half price",
+          "url": "https://wheelfront.com/this-alberta-startup-sells-no-tech-tractors-for-half-price/"
+        }
+      },
+      {
+        "json": {
+          "title": "Apple fixes bug that cops used to extract deleted chat messages from iPhones",
+          "url": "https://techcrunch.com/2026/04/22/apple-fixes-bug-that-cops-used-to-extract-deleted-chat-messages-from-iphones/"
+        }
+      },
+      {
+        "json": {
+          "title": "We found a stable Firefox identifier linking all your private Tor identities",
+          "url": "https://fingerprint.com/blog/firefox-tor-indexeddb-privacy-vulnerability/"
+        }
+      },
+      {
+        "json": {
+          "title": "Over-editing refers to a model modifying code beyond what is necessary",
+          "url": "https://nrehiew.github.io/blog/minimal_editing/"
+        }
+      },
+      {
+        "json": {
+          "title": "Qwen3.6-27B: Flagship-Level Coding in a 27B Dense Model",
+          "url": "https://qwen.ai/blog?id=qwen3.6-27b"
+        }
+      },
+      {
+        "json": {
+          "title": "5x5 Pixel font for tiny screens",
+          "url": "https://maurycyz.com/projects/mcufont/"
+        }
+      },
+      {
+        "json": {
+          "title": "Windows 9x Subsystem for Linux",
+          "url": "https://social.hails.org/@hailey/116446826733136456"
+        }
+      },
+      {
+        "json": {
+          "title": "The Illuminated Man: an unconventional portrait of JG Ballard",
+          "url": "https://www.theguardian.com/books/2026/apr/20/the-illuminated-man-by-christopher-priest-and-nina-allan-review-an-unconventional-portrait-of-jg-ballard"
+        }
+      },
+      {
+        "json": {
+          "title": "Ping-pong robot beats top-level human players",
+          "url": "https://www.reuters.com/sports/ping-pong-robot-ace-makes-history-by-beating-top-level-human-players-2026-04-22/"
+        }
+      },
+      {
+        "json": {
+          "title": "Website streamed live directly from a model",
+          "url": "https://flipbook.page/"
+        }
+      },
+      {
+        "json": {
+          "title": "Technical, cognitive, and intent debt",
+          "url": "https://martinfowler.com/fragments/2026-04-02.html"
+        }
+      },
+      {
+        "json": {
+          "title": "The Neon King of New Orleans",
+          "url": "https://gardenandgun.com/new-orleans-neon-king"
+        }
+      },
+      {
+        "json": {
+          "title": "Scoring Show HN submissions for AI design patterns",
+          "url": "https://www.adriankrebs.ch/blog/design-slop/"
+        }
+      },
+      {
+        "json": {
+          "title": "Our eighth generation TPUs: two chips for the agentic era",
+          "url": "https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/eighth-generation-tpu-agentic-era/"
+        }
+      },
+      {
+        "json": {
+          "title": "3.4M Solar Panels",
+          "url": "https://tech.marksblogg.com/american-solar-farms-v2.html"
+        }
+      },
+      {
+        "json": {
+          "title": "Parallel agents in Zed",
+          "url": "https://zed.dev/blog/parallel-agents"
+        }
+      },
+      {
+        "json": {
+          "title": "The great Scouse pasty war",
+          "url": "https://www.livpost.co.uk/the-great-scouse-pasty-war/"
+        }
+      },
+      {
+        "json": {
+          "title": "Books are not too expensive",
+          "url": "https://www.millersbookreview.com/p/no-books-are-not-remotely-too-expensive"
+        }
+      },
+      {
+        "json": {
+          "title": "Surveillance Pricing: Exploiting Information Asymmetries",
+          "url": "https://lpeproject.org/blog/surveillance-pricing-exploiting-information-asymmetries/"
+        }
+      },
+      {
+        "json": {
+          "title": "Workspace Agents in ChatGPT",
+          "url": "https://openai.com/index/introducing-workspace-agents-in-chatgpt/"
+        }
+      },
+      {
+        "json": {
+          "title": "Ultraviolet corona discharges on treetops during storms",
+          "url": "https://www.psu.edu/news/earth-and-mineral-sciences/story/treetops-glowing-during-storms-captured-film-first-time"
+        }
+      },
+      {
+        "json": {
+          "title": "Bodega cats of New York",
+          "url": "https://bodegacatsofnewyork.com"
+        }
+      },
+      {
+        "json": {
+          "title": "What killed the Florida orange?",
+          "url": "https://slate.com/business/2026/04/florida-state-orange-food-houses-real-estate.html"
+        }
+      },
+      {
+        "json": {
+          "title": "You don't need advice from editors on rejected manuscripts",
+          "url": "https://twitter.com/orsonscottcard/status/2046702294406680751"
+        }
+      },
+      {
+        "json": {
+          "title": "GitHub CLI now collects pseudoanonymous telemetry",
+          "url": "https://cli.github.com/telemetry"
+        }
+      },
+      {
+        "json": {
+          "title": "Another Day Has Come",
+          "url": "https://daringfireball.net/2026/04/another_day_has_come"
+        }
+      },
+      {
+        "json": {
+          "title": "Show HN: Broccoli, one shot coding agent on the cloud",
+          "url": "https://github.com/besimple-oss/broccoli"
+        }
+      },
+      {
+        "json": {
+          "title": "Anonymous credentials: an illustrated primer (Part 2)",
+          "url": "https://blog.cryptographyengineering.com/2026/04/17/anonymous-credentials-an-illustrated-primer-part-2/"
+        }
+      },
+      {
+        "json": {
+          "title": "Columnar Storage Is Normalization",
+          "url": "https://buttondown.com/jaffray/archive/columnar-storage-is-normalization/"
+        }
+      },
+      {
+        "json": {
+          "title": "A Vompeccc Case Study: Spotify as Pure ICR in Emacs",
+          "url": "https://www.chiply.dev/post-vompeccc-spot"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Markdown": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "GET BlueSky Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Store Bluesky Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML1": {
+      "main": [
+        [
+          {
+            "node": "Markdown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Bluesky Token": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET BlueSky Token": {
+      "main": [
+        [
+          {
+            "node": "BlueSky Token Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BlueSky Token Exists?": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Store Bluesky Token2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Bluesky Token2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "89e60804-3f2e-4f74-9a06-2adc148142e6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "17b66abdb4bde37419ef49e0013a56ade28389c8fd4ab20905b30e3666b6855c"
+  },
+  "id": "EIt7MHBalfaHqPUU",
+  "tags": []
+}
