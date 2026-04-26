@@ -1,4 +1,5 @@
-# University of Southern Florida - AI Automation Workflow - Module 3 - Build the AI Workflow
+# University of Southern Florida - AI Automation Workflow 
+## Module 3 - Build the AI Workflow
 
 This portfolio showcases three advanced automation projects that integrate generative AI with low-code platforms to solve real-world communication and data-handling challenges. From social media curation to intelligent customer support, these workflows demonstrate the power of combining orchestration engines with Large Language Models (LLMs).
 
