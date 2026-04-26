@@ -8,15 +8,15 @@ The following snapshots illustrate the end-to-end execution of the automation.
 
 ### 1. Execution Phase
 When the workflow is triggered, it systematically progresses through data ingestion, AI processing, and authentication checks.
-![Workflow Processing](Module_3_Build_the_AI_Workflow_Part_2_Processing_Screenshot.png)
+![Workflow Processing](Project%20Screen%20Shots/Module_3_Build_the_AI_Workflow_Part_2_Processing_Screenshot.png)
 
 ### 2. Successful Completion
 Upon successful execution, all nodes (from scraping to posting) indicate a completed status, confirming that the data has been transformed and transmitted correctly.
-![Workflow Successfully Completed](Module_3_Build_the_AI_Workflow_Part_2_SuccessfullyCompleted.png)
+![Workflow Successfully Completed](Project%20Screen%20Shots/Module_3_Build_the_AI_Workflow_Part_2_SuccessfullyCompleted.png)
 
 ### 3. Final Output (Bluesky)
 The end result is a professionally formatted post on Bluesky, featuring curated titles and URLs delivered in real-time.
-![BlueSky Post Screenshot](Module_3_Build_the_AI_Workflow_Part_2_BlueSky_Screenshot.jpg)
+![BlueSky Post Screenshot](Project%20Screen%20Shots/Module_3_Build_the_AI_Workflow_Part_2_BlueSky_Screenshot.jpg)
 
 ---
 

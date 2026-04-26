@@ -33,14 +33,14 @@ The automation follows a branched logic flow after an initial analysis phase:
 ### Visualizing the Workflow
 Below is the live execution of the scenario in Make.com, showing the successful routing of a "Data" inquiry:
 
-![Workflow Running](Module_3_Build_the_AI_Workflow_Part_4_Successful_Run.png)
+![Workflow Running](Project%20Screen%20Shots/Module_3_Build_the_AI_Workflow_Part_4_Successful_Run.png)
 
 *As seen in the image, the pulse moves through the Telegram trigger, OpenAI completion, and JSON parsing before the Router directs it to the 'Search Rows' Google Sheets module and back to Telegram.*
 
 ### User Experience & Results
 The final output is delivered directly to the user within Telegram. The image below demonstrates the bot successfully retrieving and formatting multiple records from the database based on the user's natural language request:
 
-![Telegram Results](Module_3_Build_the_AI_Workflow_Part_4_Successful_Run_01.png)
+![Telegram Results](Project%20Screen%20Shots/Module_3_Build_the_AI_Workflow_Part_4_Successful_Run_01.png)
 
 *The bot interprets the command "data title Marketing Coordinator" and returns structured contact details including Title, Location, Name, Email, and Phone for all matching leads.*
 
