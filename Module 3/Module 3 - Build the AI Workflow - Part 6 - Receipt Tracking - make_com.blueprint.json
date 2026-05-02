@@ -1,0 +1,1045 @@
+{
+    "name": "Module 3: Build the AI Workflow - Email Automation",
+    "flow": [
+        {
+            "id": 1,
+            "module": "gateway:CustomMailHook",
+            "version": 1,
+            "parameters": {
+                "hook": 2232228,
+                "maxResults": 1
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 15,
+                    "y": -1
+                },
+                "restore": {
+                    "parameters": {
+                        "hook": {
+                            "data": {
+                                "editable": "false"
+                            },
+                            "label": "MCJ_Gmail_WebHook"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "hook",
+                        "type": "hook:gateway-mailhook",
+                        "label": "Mailhook",
+                        "required": true
+                    },
+                    {
+                        "name": "maxResults",
+                        "type": "number",
+                        "label": "Maximum number of results"
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 2,
+            "module": "builtin:BasicFeeder",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "array": "{{1.attachments[]}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "array": {
+                            "mode": "edit",
+                            "items": [
+                                null
+                            ]
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "mode": "edit",
+                        "name": "array",
+                        "spec": [],
+                        "type": "array",
+                        "label": "Array"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "openai-gpt-3:analyzeImages",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 8545443
+            },
+            "mapper": {
+                "model": "gpt-4o",
+                "top_p": "1",
+                "images": [
+                    {
+                        "imageFileData": "{{1.attachments[].data}}",
+                        "imageUploadType": "imageFile"
+                    }
+                ],
+                "prompt": "I am assigning you the role of AI Assistant\r\nThe AI Assistant will help automate expense tracking from reciept images found as attachments in an email.\n\r\nAnalyze each receipt image and return a structured JSON Object with the following fields:\r\n\r\nDate: Date of the Transaction (format: MM/DD/YYYY)\r\nCategory: Expense Category (ie: Groceries, Meals, Office Supplies, Lodging, Gas, Travel, Subscriptions, Utilities, Entertainment, Clothing, Refund, Movie, Other)\r\nVendor:  Merchant or Store Name\r\nSubtotal:  Amount before Tax\r\nTax:  Tax Amount (if Listed)\r\nTotal: Total Amount Paid\r\nGratiuity: Tip\r\nReceiptLink:  Empty\n\r\nInstructions:\r\n1.  Use OCR to accurately extract text from each receipt image\r\n2.  Infer the category basd on merchant name or items listed.  If unclear, default to \"Other\"\r\n3.  Ensure the numbers are accurate and rounded to two decimal places.\n4.  If numbers are not found for their designate field default value to 0.00\r\n5.  Skip receipts that are illegible and return {\"error\": \"Unreadable image\"}",
+                "max_tokens": "2048",
+                "temperature": "1",
+                "n_completions": "1"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "model": {
+                            "mode": "chose",
+                            "label": "gpt-4o (system)Fast, intelligent, flexible GPT model"
+                        },
+                        "images": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "imageUploadType": {
+                                        "mode": "chose",
+                                        "label": "Image File"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "openai-gpt-3"
+                            },
+                            "label": "New OpenAI Dev Connection"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:openai-gpt-3",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "prompt",
+                        "type": "text",
+                        "label": "Prompt",
+                        "required": true
+                    },
+                    {
+                        "name": "images",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "imageUploadType",
+                                    "type": "select",
+                                    "label": "How would you like to specify an image?",
+                                    "options": [
+                                        {
+                                            "label": "Image URL",
+                                            "value": "url",
+                                            "nested": [
+                                                {
+                                                    "help": "Public URL of the image. For example, `https://getmyimage.com/myimage.png`.",
+                                                    "mode": "edit",
+                                                    "name": "imageUrl",
+                                                    "type": "url",
+                                                    "label": "Image URL",
+                                                    "mappable": {
+                                                        "help": "Public URL of the image. For example, `https://getmyimage.com/myimage.png`."
+                                                    },
+                                                    "required": true
+                                                }
+                                            ],
+                                            "default": true
+                                        },
+                                        {
+                                            "label": "Image File",
+                                            "value": "imageFile",
+                                            "nested": [
+                                                {
+                                                    "help": "Binary data of the image. For example, you can retrieve the binary data of your image using the __HTTP: Get a file__ module.",
+                                                    "name": "imageFileData",
+                                                    "type": "buffer",
+                                                    "label": "Image File",
+                                                    "required": true,
+                                                    "semantic": "file:data"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "required": true
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Image"
+                        },
+                        "type": "array",
+                        "label": "Images",
+                        "required": true
+                    },
+                    {
+                        "name": "model",
+                        "type": "select",
+                        "label": "Model",
+                        "required": true
+                    },
+                    {
+                        "name": "max_tokens",
+                        "type": "uinteger",
+                        "label": "Max Completion Tokens"
+                    },
+                    {
+                        "name": "temperature",
+                        "type": "number",
+                        "label": "Temperature",
+                        "validate": {
+                            "max": 2,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "top_p",
+                        "type": "number",
+                        "label": "Top P",
+                        "validate": {
+                            "max": 1,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "n_completions",
+                        "type": "number",
+                        "label": "Number"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 6,
+            "module": "openai-gpt-3:transformTextToStructuredData",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 8545443
+            },
+            "mapper": {
+                "model": "gpt-4o",
+                "prompt": "should receive the following data as a JSON Object within the OpenAI Result\n\nDate: Date of the Transaction (format: MM/DD/YYYY)\r\nCategory: Expense Category (ie: Groceries, Meals, Office Supplies, Lodging, Gas, Travel, Subscriptions, Utilities, Entertainment, Other)\r\nVendor:  Merchant or Store Name\r\nSubtotal:  Amount before Tax\r\nTax:  Tax Amount (if Listed)\r\nTotal: Total Amount Paid\r\nGratiuity: Tip\r\nReceipt Link:  Empty",
+                "rawText": "{{4.result}}",
+                "parameters": [
+                    {
+                        "name": "Date",
+                        "type": "string",
+                        "isRequired": false,
+                        "description": "Date"
+                    },
+                    {
+                        "name": "Category",
+                        "type": "string",
+                        "isRequired": true,
+                        "description": "Category"
+                    },
+                    {
+                        "name": "Vendor",
+                        "type": "string",
+                        "isRequired": false,
+                        "description": "Vendor"
+                    },
+                    {
+                        "name": "Subtotal",
+                        "type": "number",
+                        "isRequired": false,
+                        "description": "Subtotal"
+                    },
+                    {
+                        "name": "Tax",
+                        "type": "number",
+                        "isRequired": false,
+                        "description": "Tax"
+                    },
+                    {
+                        "name": "Total",
+                        "type": "number",
+                        "isRequired": false,
+                        "description": "Total"
+                    },
+                    {
+                        "name": "Gratuity",
+                        "type": "number",
+                        "isRequired": false,
+                        "description": "Gratuity"
+                    },
+                    {
+                        "name": "ReceiptLink",
+                        "type": "string",
+                        "isRequired": false,
+                        "description": "Receipt Link"
+                    }
+                ]
+            },
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "model": {
+                            "mode": "chose",
+                            "label": "gpt-4o (system)Fast, intelligent, flexible GPT model"
+                        },
+                        "parameters": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "type": {
+                                        "mode": "chose",
+                                        "label": "Text"
+                                    },
+                                    "isRequired": {
+                                        "mode": "chose"
+                                    },
+                                    "valueExamples": {
+                                        "mode": "chose"
+                                    }
+                                },
+                                {
+                                    "type": {
+                                        "mode": "chose",
+                                        "label": "Text"
+                                    },
+                                    "isRequired": {
+                                        "mode": "chose"
+                                    },
+                                    "valueExamples": {
+                                        "mode": "chose"
+                                    }
+                                },
+                                {
+                                    "type": {
+                                        "mode": "chose",
+                                        "label": "Text"
+                                    },
+                                    "isRequired": {
+                                        "mode": "chose"
+                                    },
+                                    "valueExamples": {
+                                        "mode": "chose"
+                                    }
+                                },
+                                {
+                                    "type": {
+                                        "mode": "chose",
+                                        "label": "Number"
+                                    },
+                                    "isRequired": {
+                                        "mode": "chose"
+                                    },
+                                    "valueExamples": {
+                                        "mode": "chose"
+                                    }
+                                },
+                                {
+                                    "type": {
+                                        "mode": "chose",
+                                        "label": "Number"
+                                    },
+                                    "isRequired": {
+                                        "mode": "chose"
+                                    },
+                                    "valueExamples": {
+                                        "mode": "chose"
+                                    }
+                                },
+                                {
+                                    "type": {
+                                        "mode": "chose",
+                                        "label": "Number"
+                                    },
+                                    "isRequired": {
+                                        "mode": "chose"
+                                    },
+                                    "valueExamples": {
+                                        "mode": "chose"
+                                    }
+                                },
+                                {
+                                    "type": {
+                                        "mode": "chose",
+                                        "label": "Number"
+                                    },
+                                    "isRequired": {
+                                        "mode": "chose"
+                                    },
+                                    "valueExamples": {
+                                        "mode": "chose"
+                                    }
+                                },
+                                {
+                                    "type": {
+                                        "mode": "chose",
+                                        "label": "Text"
+                                    },
+                                    "isRequired": {
+                                        "mode": "chose"
+                                    },
+                                    "valueExamples": {
+                                        "mode": "chose"
+                                    }
+                                }
+                            ]
+                        },
+                        "objectDefinitions": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "openai-gpt-3"
+                            },
+                            "label": "New OpenAI Dev Connection"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:openai-gpt-3",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "model",
+                        "type": "select",
+                        "label": "Model",
+                        "required": true
+                    },
+                    {
+                        "name": "rawText",
+                        "type": "text",
+                        "label": "Text to Parse",
+                        "required": true
+                    },
+                    {
+                        "name": "prompt",
+                        "type": "text",
+                        "label": "Prompt",
+                        "required": true
+                    },
+                    {
+                        "name": "parameters",
+                        "spec": {
+                            "name": "value",
+                            "spec": [],
+                            "type": "collection",
+                            "label": "Data Definition"
+                        },
+                        "type": "array",
+                        "label": "Structured Data Definition",
+                        "required": true
+                    },
+                    {
+                        "name": "objectDefinitions",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "name",
+                                    "type": "text",
+                                    "label": "Object Name",
+                                    "required": true
+                                },
+                                {
+                                    "name": "description",
+                                    "type": "text",
+                                    "label": "Description",
+                                    "required": true
+                                },
+                                {
+                                    "name": "properties",
+                                    "spec": {
+                                        "spec": [],
+                                        "type": "collection",
+                                        "label": "Property"
+                                    },
+                                    "type": "array",
+                                    "label": "Properties",
+                                    "labels": {
+                                        "add": "Add property"
+                                    },
+                                    "required": true
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Object Definition"
+                        },
+                        "type": "array",
+                        "label": "Object Definitions"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "Date",
+                        "type": "text"
+                    },
+                    {
+                        "name": "Category",
+                        "type": "text"
+                    },
+                    {
+                        "name": "Vendor",
+                        "type": "text"
+                    },
+                    {
+                        "name": "Subtotal",
+                        "type": "number"
+                    },
+                    {
+                        "name": "Tax",
+                        "type": "number"
+                    },
+                    {
+                        "name": "Total",
+                        "type": "number"
+                    },
+                    {
+                        "name": "Gratuity",
+                        "type": "number"
+                    },
+                    {
+                        "name": "ReceiptLink",
+                        "type": "text"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 7,
+            "module": "google-sheets:addRow",
+            "version": 2,
+            "parameters": {
+                "__IMTCONN__": 8542833
+            },
+            "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                    "0": "{{6.Date}}",
+                    "1": "{{6.Category}}",
+                    "2": "{{6.Vendor}}",
+                    "3": "{{6.Subtotal}}",
+                    "4": "{{6.Tax}}",
+                    "5": "{{6.Total}}",
+                    "6": "{{6.Gratuity}}",
+                    "7": "{{6.ReceiptLink}}"
+                },
+                "sheetId": "Sheet1",
+                "spreadsheetId": "/1xgfD6kGHCi_n37PHY643sXTP46mr-89xyYCXhfeUofM",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "USER_ENTERED",
+                "insertUnformatted": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1200,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "from": {
+                            "label": "My Drive"
+                        },
+                        "mode": {
+                            "label": "Search by path"
+                        },
+                        "sheetId": {
+                            "label": "Sheet1"
+                        },
+                        "spreadsheetId": {
+                            "path": [
+                                "ReceiptTracker"
+                            ]
+                        },
+                        "includesHeaders": {
+                            "label": "Yes"
+                        },
+                        "insertDataOption": {
+                            "mode": "chose",
+                            "label": "Insert rows"
+                        },
+                        "useColumnHeaders": {
+                            "label": "No",
+                            "nested": [
+                                {
+                                    "name": "values",
+                                    "spec": [
+                                        {
+                                            "name": "0",
+                                            "type": "text",
+                                            "label": "Date (A)"
+                                        },
+                                        {
+                                            "name": "1",
+                                            "type": "text",
+                                            "label": "Category (B)"
+                                        },
+                                        {
+                                            "name": "2",
+                                            "type": "text",
+                                            "label": "Vendor (C)"
+                                        },
+                                        {
+                                            "name": "3",
+                                            "type": "text",
+                                            "label": "Subtotal (D)"
+                                        },
+                                        {
+                                            "name": "4",
+                                            "type": "text",
+                                            "label": "Tax (E)"
+                                        },
+                                        {
+                                            "name": "5",
+                                            "type": "text",
+                                            "label": "Total (F)"
+                                        },
+                                        {
+                                            "name": "6",
+                                            "type": "text",
+                                            "label": "Gratuity (G)"
+                                        },
+                                        {
+                                            "name": "7",
+                                            "type": "text",
+                                            "label": "Receipt Link (H)"
+                                        },
+                                        {
+                                            "name": "8",
+                                            "type": "text",
+                                            "label": "(I)"
+                                        },
+                                        {
+                                            "name": "9",
+                                            "type": "text",
+                                            "label": "(J)"
+                                        },
+                                        {
+                                            "name": "10",
+                                            "type": "text",
+                                            "label": "(K)"
+                                        },
+                                        {
+                                            "name": "11",
+                                            "type": "text",
+                                            "label": "(L)"
+                                        },
+                                        {
+                                            "name": "12",
+                                            "type": "text",
+                                            "label": "(M)"
+                                        },
+                                        {
+                                            "name": "13",
+                                            "type": "text",
+                                            "label": "(N)"
+                                        },
+                                        {
+                                            "name": "14",
+                                            "type": "text",
+                                            "label": "(O)"
+                                        },
+                                        {
+                                            "name": "15",
+                                            "type": "text",
+                                            "label": "(P)"
+                                        },
+                                        {
+                                            "name": "16",
+                                            "type": "text",
+                                            "label": "(Q)"
+                                        },
+                                        {
+                                            "name": "17",
+                                            "type": "text",
+                                            "label": "(R)"
+                                        },
+                                        {
+                                            "name": "18",
+                                            "type": "text",
+                                            "label": "(S)"
+                                        },
+                                        {
+                                            "name": "19",
+                                            "type": "text",
+                                            "label": "(T)"
+                                        },
+                                        {
+                                            "name": "20",
+                                            "type": "text",
+                                            "label": "(U)"
+                                        },
+                                        {
+                                            "name": "21",
+                                            "type": "text",
+                                            "label": "(V)"
+                                        },
+                                        {
+                                            "name": "22",
+                                            "type": "text",
+                                            "label": "(W)"
+                                        },
+                                        {
+                                            "name": "23",
+                                            "type": "text",
+                                            "label": "(X)"
+                                        },
+                                        {
+                                            "name": "24",
+                                            "type": "text",
+                                            "label": "(Y)"
+                                        },
+                                        {
+                                            "name": "25",
+                                            "type": "text",
+                                            "label": "(Z)"
+                                        }
+                                    ],
+                                    "type": "collection",
+                                    "label": "Values in columns",
+                                    "metadata": [
+                                        [
+                                            [
+                                                "Date",
+                                                "Category",
+                                                "Vendor",
+                                                "Subtotal",
+                                                "Tax",
+                                                "Total",
+                                                "Gratuity",
+                                                "Receipt Link"
+                                            ]
+                                        ]
+                                    ]
+                                }
+                            ]
+                        },
+                        "valueInputOption": {
+                            "mode": "chose",
+                            "label": "User entered"
+                        },
+                        "insertUnformatted": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google"
+                            },
+                            "label": "My Google connection (trippinthecurl@gmail.com)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "mode",
+                        "type": "select",
+                        "label": "Search Method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "select",
+                                "fromAll",
+                                "map"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "insertUnformatted",
+                        "type": "boolean",
+                        "label": "Unformatted",
+                        "required": true
+                    },
+                    {
+                        "name": "valueInputOption",
+                        "type": "select",
+                        "label": "Value input option",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "USER_ENTERED",
+                                "RAW"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "insertDataOption",
+                        "type": "select",
+                        "label": "Insert data option",
+                        "validate": {
+                            "enum": [
+                                "INSERT_ROWS",
+                                "OVERWRITE"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "type": "select",
+                        "label": "Drive",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "drive",
+                                "share",
+                                "team"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "spreadsheetId",
+                        "type": "file",
+                        "label": "Spreadsheet Name",
+                        "required": true
+                    },
+                    {
+                        "name": "sheetId",
+                        "type": "select",
+                        "label": "Sheet Name",
+                        "required": true
+                    },
+                    {
+                        "name": "includesHeaders",
+                        "type": "select",
+                        "label": "Table contains headers",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                true,
+                                false
+                            ]
+                        }
+                    },
+                    {
+                        "name": "useColumnHeaders",
+                        "type": "select",
+                        "label": "Use column headers as IDs of the columns",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                true,
+                                false
+                            ]
+                        }
+                    },
+                    {
+                        "name": "values",
+                        "spec": [
+                            {
+                                "name": "0",
+                                "type": "text",
+                                "label": "Date (A)"
+                            },
+                            {
+                                "name": "1",
+                                "type": "text",
+                                "label": "Category (B)"
+                            },
+                            {
+                                "name": "2",
+                                "type": "text",
+                                "label": "Vendor (C)"
+                            },
+                            {
+                                "name": "3",
+                                "type": "text",
+                                "label": "Subtotal (D)"
+                            },
+                            {
+                                "name": "4",
+                                "type": "text",
+                                "label": "Tax (E)"
+                            },
+                            {
+                                "name": "5",
+                                "type": "text",
+                                "label": "Total (F)"
+                            },
+                            {
+                                "name": "6",
+                                "type": "text",
+                                "label": "Gratuity (G)"
+                            },
+                            {
+                                "name": "7",
+                                "type": "text",
+                                "label": "Receipt Link (H)"
+                            },
+                            {
+                                "name": "8",
+                                "type": "text",
+                                "label": "(I)"
+                            },
+                            {
+                                "name": "9",
+                                "type": "text",
+                                "label": "(J)"
+                            },
+                            {
+                                "name": "10",
+                                "type": "text",
+                                "label": "(K)"
+                            },
+                            {
+                                "name": "11",
+                                "type": "text",
+                                "label": "(L)"
+                            },
+                            {
+                                "name": "12",
+                                "type": "text",
+                                "label": "(M)"
+                            },
+                            {
+                                "name": "13",
+                                "type": "text",
+                                "label": "(N)"
+                            },
+                            {
+                                "name": "14",
+                                "type": "text",
+                                "label": "(O)"
+                            },
+                            {
+                                "name": "15",
+                                "type": "text",
+                                "label": "(P)"
+                            },
+                            {
+                                "name": "16",
+                                "type": "text",
+                                "label": "(Q)"
+                            },
+                            {
+                                "name": "17",
+                                "type": "text",
+                                "label": "(R)"
+                            },
+                            {
+                                "name": "18",
+                                "type": "text",
+                                "label": "(S)"
+                            },
+                            {
+                                "name": "19",
+                                "type": "text",
+                                "label": "(T)"
+                            },
+                            {
+                                "name": "20",
+                                "type": "text",
+                                "label": "(U)"
+                            },
+                            {
+                                "name": "21",
+                                "type": "text",
+                                "label": "(V)"
+                            },
+                            {
+                                "name": "22",
+                                "type": "text",
+                                "label": "(W)"
+                            },
+                            {
+                                "name": "23",
+                                "type": "text",
+                                "label": "(X)"
+                            },
+                            {
+                                "name": "24",
+                                "type": "text",
+                                "label": "(Y)"
+                            },
+                            {
+                                "name": "25",
+                                "type": "text",
+                                "label": "(Z)"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Values in columns",
+                        "metadata": [
+                            [
+                                [
+                                    "Date",
+                                    "Category",
+                                    "Vendor",
+                                    "Subtotal",
+                                    "Tax",
+                                    "Total",
+                                    "Gratuity",
+                                    "Receipt Link"
+                                ]
+                            ]
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": true,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us2.make.com",
+        "notes": []
+    }
+}
