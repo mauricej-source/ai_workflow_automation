@@ -22,6 +22,11 @@ A specialized customer success automation for order management.
 * **Workflow:** Provides an instant query interface for customers via Telegram. It retrieves order data from Google Sheets and generates a warm, personalized status update through AI.
 * **Key Feature:** Natural language response generation that transforms raw shipping data into friendly customer communications.
 
+### 4. Receipt Tracking - Email Automation (Make.com)
+An AI-driven financial tracking system that automates the transition from image to ledger.
+* **Workflow:** Ingests receipt images via a dedicated Gmail Mailhook, utilizes Computer Vision to extract financial data (tax, subtotal, vendor), and logs structured records into Google Sheets.
+* **Key Feature:** High-fidelity vision-to-data extraction that contextually categorizes expenses using GPT-4o’s multimodal capabilities.
+
 ---
 
 ## 🛠 Unified Technology Stack
@@ -31,18 +36,18 @@ Across these projects, a diverse set of modern tools and protocols are utilized:
 | Category | Technologies Used |
 | :--- | :--- |
 | **Orchestration** | [n8n](https://n8n.io/), [Make.com](https://www.make.com/) |
-| **AI Engines** | OpenAI API (GPT-4o, GPT-4o-mini) |
-| **Communication** | Telegram Bot API, Gmail, Bluesky (AT Protocol) |
+| **AI Engines** | OpenAI API (GPT-4o, GPT-4o-mini, GPT-4o Vision) |
+| **Communication** | Telegram Bot API, Gmail, Bluesky (AT Protocol), Webhooks |
 | **Data & Storage** | Google Sheets, HTML/CSS Scraping |
 | **Productivity** | Google Calendar, Google Drive |
-| **Data Formats** | JSON, Regular Expressions, CSS Selectors, HTML Templates |
+| **Data Formats** | JSON, Regular Expressions, CSS Selectors, HTML Templates, Binary Image Data |
 
 ---
 
 ## 🧬 Core Logic & Behavior
 
 ### Generative AI Integration
-In every workflow, AI acts as the "brain"—not just for generating text, but for **classification and decision-making**. System prompts are engineered to ensure specific formatting, character limits, and professional tones tailored to the end-user.
+In every workflow, AI acts as the "brain"—not just for generating text, but for **classification, decision-making, and vision analysis**. System prompts are engineered to ensure specific formatting, character limits, and professional tones tailored to the end-user.
 
 ### Data Interoperability
 These projects demonstrate seamless data flow between disparate platforms:
