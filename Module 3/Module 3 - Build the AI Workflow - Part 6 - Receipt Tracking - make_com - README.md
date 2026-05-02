@@ -3,6 +3,15 @@
 ## Project Description
 This project provides an automated pipeline for tracking expenses. It monitors a specialized email address for receipt attachments, uses AI (GPT-4o) to "read" those receipts, and organizes the data into a Google Sheets spreadsheet. This eliminates manual data entry and provides a real-time overview of spending.
 
+## Workflow Architecture
+The system follows a linear data processing pipeline designed for reliability and scalability:
+
+* **Ingestion Tier:** A dedicated Mailhook (Gmail) receives incoming emails and extracts binary image data from attachments.
+* **Orchestration Tier:** A Make.com scenario serves as the central hub, iterating through multiple attachments and managing the API handshake with OpenAI.
+* **Intelligence Tier:** GPT-4o performs high-fidelity OCR to identify key financial markers and contextually categorizes the expense.
+* **Transformation Tier:** A structured data module converts natural language AI output into a strict JSON schema (Date, Vendor, Amounts).
+* **Persistence Tier:** The validated data is appended as a new record to a designated Google Sheets ledger.
+
 ## Workflow Visualization
 
 ### a. Receipt Submission
