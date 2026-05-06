@@ -1,0 +1,16 @@
+
+Beyond the Build - BrainWriting and Speed Conversations
+-- -------------------------------------------------------
+1.  adoption
+2.  acceptance
+3.  training
+4.  knowledge sharing
+5.  key stakeholder buyin
+6.  business rules?  rules-engine?  conditional logic? Traditional vs AI Automation
+7.  What does a first phase look like?
+8.  What is the definition of success?
+9.  What is the impact to the department/organization?
+10. What is the start up cost?  short term cost after GoLive?  long term cost?
+11. Team/Project/Organization Collaboration
+12. Organization Oversight Committee with respect to AI?
+14. Who are our AI Consultants?  Are we training inhouse or bring in 3rd Parties?

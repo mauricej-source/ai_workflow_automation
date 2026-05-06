@@ -1,0 +1,42 @@
+How the automation works:
+● A manager drops a short request in a Slack channel (e.g., “Need to schedule 1:1s
+with my team this week”).
+● An AI assistant reads the request, checks the manager’s calendar, and
+suggests time slots.
+● It messages each employee with available options and confirms the meeting
+automatically.
+● Summaries are logged in Google Sheets for HR tracking.
+
+
+Early results:
+● Manager time spent scheduling meetings dropped from 90 minutes/week to 15
+minutes/week.
+● Missed or rescheduled meetings declined by 40%.
+● Employees say the system “feels seamless” and reduces the back-and-forth.
+
+Your task:
+Create a 3–5 slide presentation using Gamma to pitch this automation to the
+company’s leadership team. You’ll aim to:
+● Explain the problem and how the automation solves it.
+● Highlight early results.
+● Build emotional and strategic value.
+● Make a compelling case for rolling it out company-wide
+
+
+
+
+ChatGPT Prompt:
+“Create a 5-slide presentation outline to pitch this AI-powered automation to company leadership. 
+Use persuasive language, keep slides concise, and include a clear purpose, audience considerations, 
+a compelling story, supporting evidence, and a strong call to action.”
+
+
+
+
+Go to https://gamma.app/(opens in a new tab) 
+
+Select “Create → Paste text”
+
+Customize your design
+
+Edit your slides to ensure they’re accurate,
