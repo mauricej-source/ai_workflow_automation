@@ -10,6 +10,9 @@ I would definitely recommend the course to any seeking a better understanding of
 If interested check them out at the following link:
 https://upskill.ziplines.com/university-of-south-florida/ai-automation
 
+Link to Certification:
+https://www.credential.net/d349cf47-e05c-4d33-af0c-3a2987d147bd#acc.XpaiHBZI
+
 ---
 
 ## 📂 Project Summaries
