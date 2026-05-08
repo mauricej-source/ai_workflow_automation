@@ -14,7 +14,7 @@ https://upskill.ziplines.com/university-of-south-florida/ai-automation
 
 ## 📂 Project Summaries
 
-### 1. Module 5: [Enhanced Customer Support Workflow](Module%205/README.md)
+### 1. Module 5: [Enhanced Customer Support Workflow](/Module%205/README.md)
 A high-precision, multi-channel AI automation system designed to streamline customer inquiries.
 * **Workflow:** Leverages a Telegram interface where **GPT-4 Turbo** extracts Order IDs, names, and emails from raw text. It dynamically routes requests—including order status lookups and shipping tracking via Google Sheets—and triggers internal **Slack** alerts for human escalation.
 * **Key Feature:** Advanced intent classification (`order`, `shipping`, `escalation`, `unknown`) to provide context-aware responses or immediate regional support notifications.
