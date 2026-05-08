@@ -9,30 +9,30 @@ The application follows a structured logic path to process customer messages int
 ### 1. Workflow Architecture
 The system is triggered by a Telegram webhook. Incoming messages are processed by an OpenAI GPT-4 Turbo model that extracts the Order ID, Customer Name, and Email, while classifying the intent into categories like `order`, `shipping`, `escalation`, or `unknown`.
 
-![00_Module_5_Workflow](screenshots/00_Module_5_Workflow.png)
+![00_Module_5_Workflow](Project%20Screen%20Shots/00_Module_5_Workflow.png)
 *Figure 1: Overall Architecture of the Workflow.*
 
 ### 2. Data Management & Validation
 The system interfaces with a centralized Google Sheets database to validate order details and retrieve real-time shipping information.
 
-![02_Module_5_Workflow_Google_Sheets](screenshots/02_Module_5_Workflow_Google_Sheets.png)
+![02_Module_5_Workflow_Google_Sheets](Project%20Screen%20Shots/02_Module_5_Workflow_Google_Sheets.png)
 *Figure 2: Google Sheets Data used for testing and performance.*
 
 ### 3. Automated Order & Shipping Updates
 * **Order Status Path:** If classified as an "order" inquiry, the system retrieves the status from Google Sheets, generates a personalized response using AI, and replies to the customer via the **ConnerMcCleod Telegram Bot**.
 
-![03_Module_5_Workflow_Order_Status](screenshots/03_Module_5_Workflow_Order_Status.png)
+![03_Module_5_Workflow_Order_Status](Project%20Screen%20Shots/03_Module_5_Workflow_Order_Status.png)
 *Figure 3: Order Status redirection to Telegram Chatbot.*
 
 * **Shipping & Unknown Queries:** For shipping requests, the bot provides tracking numbers and carriers. If the intent is unclear, the system provides a helpful "unknown" response guiding the user on how to format their query.
 
-![04_Module_5_Workflow_Shipping_Unknown_Escalation](screenshots/04_Module_5_Workflow_Shipping_Unknown_Escalation.png)
+![04_Module_5_Workflow_Shipping_Unknown_Escalation](Project%20Screen%20Shots/04_Module_5_Workflow_Shipping_Unknown_Escalation.png)
 *Figure 4: Shipping Status, Escalation, and Unknown Workflow Paths.*
 
 ### 4. Support Escalation
 When a customer requests a "person," "human," or "escalation," the workflow triggers an internal alert. A notification is sent to the **Regional Agent Support Team** via Slack to ensure a swift follow-up.
 
-![05_Module_5_Workflow_Escalation](screenshots/05_Module_5_Workflow_Escalation.png)
+![05_Module_5_Workflow_Escalation](Project%20Screen%20Shots/05_Module_5_Workflow_Escalation.png)
 *Figure 5: Escalation Notification to Regional Agent Support Team.*
 
 ## Application Help
