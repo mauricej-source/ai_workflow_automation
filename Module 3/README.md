@@ -7,23 +7,27 @@ This portfolio showcases three advanced automation projects that integrate gener
 
 ## 📂 Project Summaries
 
-### 1. Hacker News to Bluesky Pipeline (n8n)
+### 1. [Hacker News to Bluesky Pipeline](Module%203%20-%20Build%20the%20AI%20Workflow%20-%20Part%202%20-%20n8n%20-%20README.md)
 An automated news curation system that monitors global tech trends.
+* **Orchestration:** n8n
 * **Workflow:** Scrapes top stories from Hacker News, uses AI to distill the most relevant content, and publishes concise summaries to Bluesky.
 * **Key Feature:** Implements persistent authentication for the AT Protocol to manage API rate limits efficiently.
 
-### 2. Intelligent Assistant & Intent Classifier (Make.com)
+### 2. [Intelligent Assistant & Intent Classifier](Module%203%20-%20Build%20the%20AI%20Workflow%20-%20Part%204%20-%20Novatech%20-%20make_com%20-%20README.md)
 A sophisticated multi-path AI assistant built for the healthcare/business tech space.
+* **Orchestration:** Make.com
 * **Workflow:** Watches for Telegram messages and uses a "classify-and-route" architecture. Based on intent, it searches lead databases, sends event invitations via email, or schedules meetings on Google Calendar.
 * **Key Feature:** Advanced branched logic and entity extraction (names, locations, dates) using GPT-4o-mini.
 
-### 3. Automated Order-Tracking Playbook (Make.com)
+### 3. [Automated Order-Tracking Playbook](Module%203%20-%20Build%20the%20AI%20Workflow%20-%20Part%205%20-%20Playbook%20Assignment%20-%20make_com%20-%20README.md)
 A specialized customer success automation for order management.
+* **Orchestration:** Make.com
 * **Workflow:** Provides an instant query interface for customers via Telegram. It retrieves order data from Google Sheets and generates a warm, personalized status update through AI.
 * **Key Feature:** Natural language response generation that transforms raw shipping data into friendly customer communications.
 
-### 4. Receipt Tracking - Email Automation (Make.com)
+### 4. [Receipt Tracking & Email Automation](Module%203%20-%20Build%20the%20AI%20Workflow%20-%20Part%206%20-%20Receipt%20Tracking%20-%20make_com%20-%20README.md)
 An AI-driven financial tracking system that automates the transition from image to ledger.
+* **Orchestration:** Make.com
 * **Workflow:** Ingests receipt images via a dedicated Gmail Mailhook, utilizes Computer Vision to extract financial data (tax, subtotal, vendor), and logs structured records into Google Sheets.
 * **Key Feature:** High-fidelity vision-to-data extraction that contextually categorizes expenses using GPT-4o’s multimodal capabilities.
 
