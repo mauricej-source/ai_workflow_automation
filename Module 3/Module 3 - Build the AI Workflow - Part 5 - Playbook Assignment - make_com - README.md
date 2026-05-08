@@ -20,7 +20,7 @@ The scenario follows a high-efficiency linear path designed for rapid data retri
 ### Workflow Visualization & Result
 The image below illustrates the completed workflow structure in Make.com, showing the end-to-end connection from the Telegram trigger to the final response.
 
-![Final Workflow Screenshot](Project%20Screen%20Shots/04_Module%203%20Playbook_Part_5_FINAL_Workflow.jpg)
+![Final Workflow Screenshot](Project%20Screen%20Shots/04_Module_3_Playbook_Part_5_FINAL_Workflow.png)
 
 #### Live Result in Telegram
 Once the workflow is triggered by an order number, it automatically retrieves the data and returns a natural language status update. Below is a live example of the bot responding to a user query:
