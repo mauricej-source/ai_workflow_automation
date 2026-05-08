@@ -29,7 +29,7 @@ An automated news curation system that monitors global tech trends.
 * **Workflow:** Scrapes top stories from Hacker News, uses AI to distill the most relevant content, and publishes concise summaries to Bluesky.
 * **Key Feature:** Implements persistent authentication for the AT Protocol to manage API rate limits efficiently.
 
-### 4. Module 3: Receipt Tracking & Email Automation](/Module%203/Module%203%20-%20Build%20the%20AI%20Workflow%20-%20Part%206%20-%20Receipt%20Tracking%20-%20make_com%20-%20README.md)
+### 4. Module 3: [Receipt Tracking & Email Automation](Module%203/Module%203%20-%20Build%20the%20AI%20Workflow%20-%20Part%206%20-%20Receipt%20Tracking%20-%20make_com%20-%20README.md)
 An AI-driven system that automates the transition from raw image to ledger.
 * **Workflow:** Ingests receipt images via a dedicated Gmail Mailhook, utilizes Computer Vision to extract financial data (tax, subtotal, vendor), and logs structured records into Google Sheets.
 * **Key Feature:** High-fidelity vision-to-data extraction using GPT-4o’s multimodal capabilities.
