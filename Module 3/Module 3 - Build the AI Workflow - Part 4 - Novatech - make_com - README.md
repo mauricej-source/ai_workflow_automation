@@ -40,7 +40,7 @@ Below is the live execution of the scenario in Make.com, showing the successful 
 ### User Experience & Results
 The final output is delivered directly to the user within Telegram. The image below demonstrates the bot successfully retrieving and formatting multiple records from the database based on the user's natural language request:
 
-![Telegram Results](Project%20Screen%20Shots/04_Module%203%20Playbook_Part_5_FINAL_Workflow.png)
+![Telegram Results](Project%20Screen%20Shots/Module_3_Build_the_AI_Workflow_Part_4_Successful_Run_01.png)
 
 *The bot interprets the command "data title Marketing Coordinator" and returns structured contact details including Title, Location, Name, Email, and Phone for all matching leads.*
 

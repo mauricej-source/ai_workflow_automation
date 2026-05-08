@@ -16,7 +16,7 @@ Upon successful execution, all nodes (from scraping to posting) indicate a compl
 
 ### 3. Final Output (Bluesky)
 The end result is a professionally formatted post on Bluesky, featuring curated titles and URLs delivered in real-time.
-![BlueSky Post Screenshot](Project%20Screen%20Shots/Module_3_Build_the_AI_Workflow_Part_2_BlueSky_Screenshot.jpg)
+![BlueSky Post Screenshot](Project%20Screen%20Shots/Module_3_Build_the_AI_Workflow_Part_2_BlueSky_Screenshot.png)
 
 ---
 

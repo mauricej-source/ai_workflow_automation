@@ -25,7 +25,7 @@ The image below illustrates the completed workflow structure in Make.com, showin
 #### Live Result in Telegram
 Once the workflow is triggered by an order number, it automatically retrieves the data and returns a natural language status update. Below is a live example of the bot responding to a user query:
 
-![Telegram Order Status Response](Project%20Screen%20Shots/03_Module%203%20Playbook_Part_5_Telegram_Response.png)
+![Telegram Order Status Response](Project%20Screen%20Shots/03_Module_3_Playbook_Part_5_Telegram_Response.png)
 
 *As shown, the bot identifies the order, checks the status ("Shipped"), and provides the tracking number and carrier in a friendly tone.*
 
