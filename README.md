@@ -19,17 +19,17 @@ A high-precision, multi-channel AI automation system designed to streamline cust
 * **Workflow:** Leverages a Telegram interface where **GPT-4 Turbo** extracts Order IDs, names, and emails from raw text. It dynamically routes requests—including order status lookups and shipping tracking via Google Sheets—and triggers internal **Slack** alerts for human escalation.
 * **Key Feature:** Advanced intent classification (`order`, `shipping`, `escalation`, `unknown`) to provide context-aware responses or immediate regional support notifications.
 
-### 2. Module 3: [Intelligent Assistant & Intent Classifier](Module%203%20-%20Build%20the%20AI%20Workflow%20-%20Part%204%20-%20Novatech%20-%20make_com%20-%20README.md)
+### 2. Module 3: [Intelligent Assistant & Intent Classifier](Module%203/Module%203%20-%20Build%20the%20AI%20Workflow%20-%20Part%204%20-%20Novatech%20-%20make_com%20-%20README.md)
 A sophisticated multi-path AI assistant built for the healthcare/business tech space.
 * **Workflow:** Monitors Telegram messages using a "classify-and-route" architecture. Based on intent, it searches lead databases, sends event invitations via email, or schedules meetings on Google Calendar.
 * **Key Feature:** Advanced branched logic and entity extraction (names, locations, dates) using GPT-4o-mini.
 
-### 3. Module 3: [Hacker News to Bluesky Pipeline](Module%203%20-%20Build%20the%20AI%20Workflow%20-%20Part%202%20-%20n8n%20-%20README.md)
+### 3. Module 3: [Hacker News to Bluesky Pipeline](Module%203/Module%203%20-%20Build%20the%20AI%20Workflow%20-%20Part%202%20-%20n8n%20-%20README.md)
 An automated news curation system that monitors global tech trends.
 * **Workflow:** Scrapes top stories from Hacker News, uses AI to distill the most relevant content, and publishes concise summaries to Bluesky.
 * **Key Feature:** Implements persistent authentication for the AT Protocol to manage API rate limits efficiently.
 
-### 4. Module 3: Receipt Tracking & Email Automation](Module%203%20-%20Build%20the%20AI%20Workflow%20-%20Part%206%20-%20Receipt%20Tracking%20-%20make_com%20-%20README.md)
+### 4. Module 3: Receipt Tracking & Email Automation](Module%203/Module%203%20-%20Build%20the%20AI%20Workflow%20-%20Part%206%20-%20Receipt%20Tracking%20-%20make_com%20-%20README.md)
 An AI-driven system that automates the transition from raw image to ledger.
 * **Workflow:** Ingests receipt images via a dedicated Gmail Mailhook, utilizes Computer Vision to extract financial data (tax, subtotal, vendor), and logs structured records into Google Sheets.
 * **Key Feature:** High-fidelity vision-to-data extraction using GPT-4o’s multimodal capabilities.
